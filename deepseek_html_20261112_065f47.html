@@ -1,0 +1,1723 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>КодПрофи — БПК | Агрегатор практики</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    }
+
+    :root {
+      /* Цвета в стиле логотипа БПК */
+      --primary: #5D3EBF; /* Глубокий фиолетово-синий */
+      --primary-dark: #4A2E9E;
+      --primary-light: #EBE7FA;
+      --accent: #B4E61E; /* Яркий салатовый */
+      --accent-dark: #9AC91A;
+      --accent-light: #F4FAD9;
+
+      --secondary: #1E1A2E;
+      --gray-bg: #F8F9FC;
+      --gray-border: #E2E5ED;
+      --success: #10B981;
+      --warning: #F59E0B;
+      --text-main: #1E1A2E;
+      --text-muted: #6B6880;
+      --white: #FFFFFF;
+      --shadow-sm: 0 1px 3px rgba(0,0,0,0.06), 0 1px 2px rgba(0,0,0,0.04);
+      --shadow-md: 0 4px 6px -1px rgba(0,0,0,0.08), 0 2px 4px -2px rgba(0,0,0,0.06);
+      --shadow-lg: 0 10px 15px -3px rgba(0,0,0,0.08), 0 4px 6px -4px rgba(0,0,0,0.04);
+      --radius: 16px;
+      --radius-sm: 10px;
+      --radius-full: 9999px;
+      --transition: 0.2s ease;
+    }
+
+    body {
+      background: var(--gray-bg);
+      color: var(--text-main);
+      line-height: 1.5;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+
+    /* ===== HEADER ===== */
+    header {
+      background: var(--white);
+      border-bottom: 1px solid var(--gray-border);
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      box-shadow: var(--shadow-sm);
+    }
+
+    .container {
+      max-width: 1280px;
+      margin: 0 auto;
+      padding: 0 24px;
+      width: 100%;
+    }
+
+    .header-inner {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      height: 80px;
+      gap: 24px;
+    }
+
+    .logo-block {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      text-decoration: none;
+    }
+
+    /* Стиль для картинки-логотипа */
+    .logo-img {
+      height: 52px;
+      width: auto;
+      object-fit: contain;
+      border-radius: 8px;
+    }
+
+    .footer-logo-img {
+      background-color: #ffffff;
+      padding: 4px;
+    }
+
+    .logo-text {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .logo-text .main {
+      font-weight: 800;
+      font-size: 1.2rem;
+      color: var(--primary);
+      line-height: 1.1;
+    }
+
+    .logo-text .sub {
+      font-size: 0.75rem;
+      color: var(--text-muted);
+      font-weight: 500;
+      letter-spacing: 0.5px;
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 4px;
+      list-style: none;
+      flex-wrap: wrap;
+    }
+
+    .nav-links a {
+      text-decoration: none;
+      color: var(--text-muted);
+      font-weight: 500;
+      font-size: 0.92rem;
+      padding: 8px 14px;
+      border-radius: var(--radius-full);
+      transition: var(--transition);
+      white-space: nowrap;
+    }
+
+    .nav-links a:hover,
+    .nav-links a.active {
+      background: var(--primary-light);
+      color: var(--primary);
+    }
+
+    .header-actions {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      padding: 10px 20px;
+      border-radius: var(--radius-full);
+      font-weight: 600;
+      font-size: 0.9rem;
+      border: none;
+      cursor: pointer;
+      transition: var(--transition);
+      text-decoration: none;
+      white-space: nowrap;
+    }
+
+    .btn-primary {
+      background: var(--primary);
+      color: var(--white);
+    }
+
+    .btn-primary:hover {
+      background: var(--primary-dark);
+      box-shadow: var(--shadow-md);
+    }
+
+    .btn-accent {
+      background: var(--accent);
+      color: var(--text-main);
+    }
+
+    .btn-accent:hover {
+      background: var(--accent-dark);
+    }
+
+    .btn-outline {
+      background: transparent;
+      color: var(--primary);
+      border: 1.5px solid var(--primary);
+    }
+
+    .btn-outline:hover {
+      background: var(--primary-light);
+    }
+
+    .btn-ghost {
+      background: transparent;
+      color: var(--text-muted);
+      border: 1px solid var(--gray-border);
+    }
+
+    .btn-ghost:hover {
+      background: var(--gray-bg);
+      color: var(--text-main);
+    }
+
+    .btn-sm {
+      padding: 7px 16px;
+      font-size: 0.82rem;
+    }
+
+    .btn-success {
+      background: var(--success);
+      color: var(--white);
+    }
+
+    .btn-success:hover {
+      background: #059669;
+    }
+
+    /* ===== HERO ===== */
+    .hero {
+      padding: 56px 0 48px;
+      background: linear-gradient(135deg, #F8F5FF 0%, #FFFFFF 100%);
+      border-bottom: 1px solid var(--gray-border);
+    }
+
+    .hero-inner {
+      display: grid;
+      grid-template-columns: 1.1fr 0.9fr;
+      gap: 48px;
+      align-items: center;
+    }
+
+    .hero h1 {
+      font-size: 2.6rem;
+      font-weight: 800;
+      line-height: 1.15;
+      letter-spacing: -0.02em;
+      margin-bottom: 16px;
+    }
+
+    .hero h1 .highlight {
+      color: var(--primary);
+    }
+
+    .hero p {
+      font-size: 1.1rem;
+      color: var(--text-muted);
+      max-width: 540px;
+      margin-bottom: 28px;
+    }
+
+    .hero-stats {
+      display: flex;
+      gap: 32px;
+      margin-top: 32px;
+      flex-wrap: wrap;
+    }
+
+    .hero-stat {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .hero-stat .num {
+      font-size: 1.8rem;
+      font-weight: 800;
+      color: var(--primary);
+      line-height: 1.2;
+    }
+
+    .hero-stat .label {
+      font-size: 0.85rem;
+      color: var(--text-muted);
+      font-weight: 500;
+    }
+
+    .hero-visual {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .hero-card {
+      background: var(--white);
+      border-radius: var(--radius);
+      padding: 28px;
+      box-shadow: var(--shadow-lg);
+      border: 1px solid var(--gray-border);
+      width: 100%;
+      max-width: 380px;
+      border-top: 4px solid var(--accent);
+    }
+
+    .hero-card-header {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 20px;
+    }
+
+    .hero-card-header .avatar {
+      width: 48px;
+      height: 48px;
+      background: var(--primary-light);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 700;
+      color: var(--primary);
+      font-size: 1.1rem;
+    }
+
+    .hero-card-header .name {
+      font-weight: 700;
+      font-size: 1rem;
+    }
+
+    .hero-card-header .role {
+      font-size: 0.82rem;
+      color: var(--text-muted);
+    }
+
+    .skill-bar-item {
+      margin-bottom: 14px;
+    }
+
+    .skill-bar-item .label-row {
+      display: flex;
+      justify-content: space-between;
+      font-size: 0.85rem;
+      font-weight: 500;
+      margin-bottom: 6px;
+    }
+
+    .skill-bar-item .label-row span:last-child {
+      color: var(--primary);
+      font-weight: 700;
+    }
+
+    .skill-track {
+      height: 8px;
+      background: var(--gray-bg);
+      border-radius: var(--radius-full);
+      overflow: hidden;
+    }
+
+    .skill-fill {
+      height: 100%;
+      background: linear-gradient(90deg, var(--primary), #7E5DD4);
+      border-radius: var(--radius-full);
+      transition: width 1s ease;
+    }
+
+    .badge-verified {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      background: var(--accent-light);
+      color: #4A6B00;
+      font-size: 0.78rem;
+      font-weight: 600;
+      padding: 4px 12px;
+      border-radius: var(--radius-full);
+      margin-top: 16px;
+    }
+
+    /* ===== SECTIONS ===== */
+    .section {
+      padding: 56px 0;
+    }
+
+    .section-header {
+      display: flex;
+      align-items: flex-end;
+      justify-content: space-between;
+      margin-bottom: 32px;
+      gap: 24px;
+      flex-wrap: wrap;
+    }
+
+    .section-header h2 {
+      font-size: 1.75rem;
+      font-weight: 800;
+      letter-spacing: -0.01em;
+    }
+
+    .section-header p {
+      color: var(--text-muted);
+      margin-top: 4px;
+      font-size: 0.95rem;
+    }
+
+    /* ===== FILTERS ===== */
+    .filter-bar {
+      display: flex;
+      gap: 12px;
+      flex-wrap: wrap;
+      margin-bottom: 28px;
+      align-items: center;
+    }
+
+    .filter-chip {
+      padding: 8px 18px;
+      border-radius: var(--radius-full);
+      border: 1.5px solid var(--gray-border);
+      background: var(--white);
+      color: var(--text-muted);
+      font-weight: 500;
+      font-size: 0.85rem;
+      cursor: pointer;
+      transition: var(--transition);
+    }
+
+    .filter-chip:hover,
+    .filter-chip.active {
+      border-color: var(--primary);
+      background: var(--primary-light);
+      color: var(--primary);
+    }
+
+    .search-input {
+      flex: 1;
+      min-width: 220px;
+      padding: 10px 18px;
+      border-radius: var(--radius-full);
+      border: 1.5px solid var(--gray-border);
+      background: var(--white);
+      font-size: 0.9rem;
+      outline: none;
+      transition: var(--transition);
+    }
+
+    .search-input:focus {
+      border-color: var(--primary);
+      box-shadow: 0 0 0 3px rgba(93, 62, 191, 0.12);
+    }
+
+    .select-custom {
+      padding: 10px 18px;
+      border-radius: var(--radius-full);
+      border: 1.5px solid var(--gray-border);
+      background: var(--white);
+      font-size: 0.9rem;
+      color: var(--text-main);
+      cursor: pointer;
+      outline: none;
+    }
+
+    /* ===== TASK GRID ===== */
+    .task-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+      gap: 24px;
+    }
+
+    .task-card {
+      background: var(--white);
+      border-radius: var(--radius);
+      border: 1px solid var(--gray-border);
+      padding: 24px;
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+      box-shadow: var(--shadow-sm);
+      transition: var(--transition);
+      cursor: pointer;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .task-card:hover {
+      box-shadow: var(--shadow-lg);
+      transform: translateY(-3px);
+      border-color: var(--primary);
+    }
+
+    .task-card-top {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+    }
+
+    .task-tag {
+      font-size: 0.72rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+      padding: 4px 12px;
+      border-radius: var(--radius-full);
+      background: var(--primary-light);
+      color: var(--primary);
+    }
+
+    .task-tag.verified {
+      background: var(--accent-light);
+      color: #4A6B00;
+    }
+
+    .task-hours {
+      font-size: 0.82rem;
+      font-weight: 600;
+      color: var(--text-muted);
+      display: flex;
+      align-items: center;
+      gap: 4px;
+    }
+
+    .task-card h3 {
+      font-size: 1.05rem;
+      font-weight: 700;
+      line-height: 1.35;
+    }
+
+    .task-card .company {
+      font-size: 0.85rem;
+      color: var(--text-muted);
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .task-card .company .dot {
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: var(--success);
+    }
+
+    .task-card-footer {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-top: auto;
+      padding-top: 16px;
+      border-top: 1px solid var(--gray-border);
+    }
+
+    .task-reward {
+      font-weight: 700;
+      color: var(--primary);
+      font-size: 0.95rem;
+    }
+
+    .task-reward small {
+      font-weight: 500;
+      color: var(--text-muted);
+      font-size: 0.78rem;
+    }
+
+    /* ===== CALCULATOR ===== */
+    .calc-card {
+      background: var(--white);
+      border-radius: var(--radius);
+      border: 1px solid var(--gray-border);
+      padding: 32px;
+      box-shadow: var(--shadow-md);
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 40px;
+    }
+
+    .calc-left h3 {
+      font-size: 1.2rem;
+      margin-bottom: 8px;
+    }
+
+    .calc-left p {
+      color: var(--text-muted);
+      font-size: 0.92rem;
+      margin-bottom: 24px;
+    }
+
+    .calc-field {
+      margin-bottom: 20px;
+    }
+
+    .calc-field label {
+      display: block;
+      font-size: 0.85rem;
+      font-weight: 600;
+      margin-bottom: 8px;
+    }
+
+    .calc-field input,
+    .calc-field select {
+      width: 100%;
+      padding: 12px 16px;
+      border-radius: var(--radius-sm);
+      border: 1.5px solid var(--gray-border);
+      font-size: 0.92rem;
+      outline: none;
+      transition: var(--transition);
+      background: var(--gray-bg);
+    }
+
+    .calc-field input:focus,
+    .calc-field select:focus {
+      border-color: var(--primary);
+      background: var(--white);
+      box-shadow: 0 0 0 3px rgba(93, 62, 191, 0.12);
+    }
+
+    .calc-result {
+      background: linear-gradient(135deg, var(--primary) 0%, #7E5DD4 100%);
+      border-radius: var(--radius);
+      padding: 32px;
+      color: var(--white);
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+    }
+
+    .calc-result .label {
+      font-size: 0.9rem;
+      opacity: 0.85;
+      margin-bottom: 8px;
+    }
+
+    .calc-result .value {
+      font-size: 3.2rem;
+      font-weight: 800;
+      line-height: 1.1;
+    }
+
+    .calc-result .unit {
+      font-size: 1.1rem;
+      font-weight: 500;
+      opacity: 0.9;
+    }
+
+    .calc-result .note {
+      margin-top: 20px;
+      font-size: 0.85rem;
+      opacity: 0.8;
+      border-top: 1px solid rgba(255,255,255,0.2);
+      padding-top: 16px;
+    }
+
+    /* ===== RESUME BUILDER ===== */
+    .resume-layout {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 32px;
+      align-items: start;
+    }
+
+    .resume-form {
+      background: var(--white);
+      border-radius: var(--radius);
+      border: 1px solid var(--gray-border);
+      padding: 28px;
+      box-shadow: var(--shadow-sm);
+    }
+
+    .resume-form h3 {
+      font-size: 1.1rem;
+      margin-bottom: 20px;
+      padding-bottom: 12px;
+      border-bottom: 1px solid var(--gray-border);
+    }
+
+    .form-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 14px;
+      margin-bottom: 16px;
+    }
+
+    .form-group {
+      margin-bottom: 16px;
+    }
+
+    .form-group label {
+      display: block;
+      font-size: 0.82rem;
+      font-weight: 600;
+      margin-bottom: 6px;
+      color: var(--text-muted);
+    }
+
+    .form-group input,
+    .form-group select,
+    .form-group textarea {
+      width: 100%;
+      padding: 10px 14px;
+      border-radius: var(--radius-sm);
+      border: 1.5px solid var(--gray-border);
+      font-size: 0.9rem;
+      outline: none;
+      transition: var(--transition);
+      background: var(--gray-bg);
+      font-family: inherit;
+      resize: vertical;
+    }
+
+    .form-group input:focus,
+    .form-group select:focus,
+    .form-group textarea:focus {
+      border-color: var(--primary);
+      background: var(--white);
+      box-shadow: 0 0 0 3px rgba(93, 62, 191, 0.12);
+    }
+
+    .resume-preview {
+      background: var(--white);
+      border-radius: var(--radius);
+      border: 1px solid var(--gray-border);
+      padding: 32px;
+      box-shadow: var(--shadow-md);
+      position: sticky;
+      top: 96px;
+      border-top: 4px solid var(--accent);
+    }
+
+    .resume-preview .resume-header {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      margin-bottom: 24px;
+      padding-bottom: 20px;
+      border-bottom: 2px solid var(--primary-light);
+    }
+
+    .resume-preview .resume-avatar {
+      width: 64px;
+      height: 64px;
+      border-radius: 50%;
+      background: var(--primary);
+      color: var(--white);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.5rem;
+      font-weight: 800;
+      flex-shrink: 0;
+    }
+
+    .resume-preview .resume-name {
+      font-size: 1.3rem;
+      font-weight: 800;
+      line-height: 1.2;
+    }
+
+    .resume-preview .resume-role {
+      font-size: 0.9rem;
+      color: var(--primary);
+      font-weight: 600;
+      margin-top: 4px;
+    }
+
+    .resume-preview .resume-section {
+      margin-bottom: 20px;
+    }
+
+    .resume-preview .resume-section h4 {
+      font-size: 0.8rem;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      color: var(--text-muted);
+      margin-bottom: 10px;
+      font-weight: 700;
+    }
+
+    .resume-preview .resume-section p {
+      font-size: 0.9rem;
+      color: var(--text-main);
+      line-height: 1.55;
+    }
+
+    .resume-skill-tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+
+    .resume-skill-tag {
+      background: var(--primary-light);
+      color: var(--primary);
+      font-size: 0.8rem;
+      font-weight: 600;
+      padding: 5px 14px;
+      border-radius: var(--radius-full);
+    }
+
+    .resume-case-item {
+      display: flex;
+      align-items: flex-start;
+      gap: 12px;
+      padding: 12px 0;
+      border-bottom: 1px solid var(--gray-border);
+    }
+
+    .resume-case-item:last-child {
+      border-bottom: none;
+    }
+
+    .resume-case-icon {
+      width: 32px;
+      height: 32px;
+      border-radius: 8px;
+      background: var(--accent-light);
+      color: #4A6B00;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.9rem;
+      flex-shrink: 0;
+      font-weight: 700;
+    }
+
+    .resume-case-item .case-title {
+      font-weight: 600;
+      font-size: 0.9rem;
+    }
+
+    .resume-case-item .case-meta {
+      font-size: 0.78rem;
+      color: var(--text-muted);
+      margin-top: 2px;
+    }
+
+    .verified-stamp {
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      background: var(--accent-light);
+      color: #4A6B00;
+      font-size: 0.75rem;
+      font-weight: 700;
+      padding: 4px 12px;
+      border-radius: var(--radius-full);
+      margin-top: 16px;
+    }
+
+    /* ===== EMPLOYER ===== */
+    .employer-layout {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 32px;
+      align-items: start;
+    }
+
+    .employer-panel {
+      background: var(--white);
+      border-radius: var(--radius);
+      border: 1px solid var(--gray-border);
+      padding: 28px;
+      box-shadow: var(--shadow-sm);
+    }
+
+    .employer-panel h3 {
+      font-size: 1.1rem;
+      margin-bottom: 20px;
+      padding-bottom: 12px;
+      border-bottom: 1px solid var(--gray-border);
+    }
+
+    .task-constructor .form-group {
+      margin-bottom: 14px;
+    }
+
+    .task-preview {
+      background: var(--white);
+      border-radius: var(--radius);
+      border: 1px solid var(--gray-border);
+      padding: 24px;
+      box-shadow: var(--shadow-md);
+      position: sticky;
+      top: 96px;
+      border-top: 4px solid var(--primary);
+    }
+
+    .task-preview .preview-label {
+      font-size: 0.75rem;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      color: var(--text-muted);
+      font-weight: 700;
+      margin-bottom: 16px;
+    }
+
+    .ai-check {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 12px 16px;
+      background: #F0F9FF;
+      border-radius: var(--radius-sm);
+      border: 1px solid #BAE6FD;
+      margin-top: 16px;
+      font-size: 0.85rem;
+      color: #0369A1;
+    }
+
+    .ai-check .pulse {
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      background: #0EA5E9;
+      animation: pulse 1.8s infinite;
+    }
+
+    @keyframes pulse {
+      0%, 100% { opacity: 1; transform: scale(1); }
+      50% { opacity: 0.4; transform: scale(0.8); }
+    }
+
+    /* ===== TEACHER PANEL ===== */
+    .teacher-card {
+      background: var(--white);
+      border-radius: var(--radius);
+      border: 1px solid var(--gray-border);
+      box-shadow: var(--shadow-sm);
+      overflow: hidden;
+    }
+
+    .teacher-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 0.9rem;
+    }
+
+    .teacher-table thead {
+      background: var(--gray-bg);
+    }
+
+    .teacher-table th {
+      text-align: left;
+      padding: 14px 20px;
+      font-weight: 700;
+      font-size: 0.78rem;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+      color: var(--text-muted);
+      border-bottom: 1px solid var(--gray-border);
+    }
+
+    .teacher-table td {
+      padding: 14px 20px;
+      border-bottom: 1px solid var(--gray-border);
+      vertical-align: middle;
+    }
+
+    .teacher-table tr:last-child td {
+      border-bottom: none;
+    }
+
+    .teacher-table tr:hover td {
+      background: #FAFBFC;
+    }
+
+    .status-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      padding: 4px 12px;
+      border-radius: var(--radius-full);
+      font-size: 0.78rem;
+      font-weight: 600;
+    }
+
+    .status-badge.pending {
+      background: #FEF3C7;
+      color: #B45309;
+    }
+
+    .status-badge.approved {
+      background: var(--accent-light);
+      color: #4A6B00;
+    }
+
+    /* ===== FOOTER ===== */
+    footer {
+      background: var(--secondary);
+      color: #94A3B8;
+      padding: 48px 0 32px;
+      margin-top: auto;
+    }
+
+    .footer-inner {
+      display: grid;
+      grid-template-columns: 2fr 1fr 1fr 1fr;
+      gap: 40px;
+      margin-bottom: 40px;
+    }
+
+    .footer-brand .logo-block {
+      margin-bottom: 12px;
+    }
+
+    .footer-brand .logo-text .main {
+      color: var(--white);
+    }
+
+    .footer-brand .logo-text .sub {
+      color: #94A3B8;
+    }
+
+    .footer-brand p {
+      font-size: 0.88rem;
+      line-height: 1.6;
+      max-width: 280px;
+    }
+
+    .footer-col h4 {
+      color: var(--white);
+      font-size: 0.85rem;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      margin-bottom: 16px;
+      font-weight: 700;
+    }
+
+    .footer-col a {
+      display: block;
+      color: #94A3B8;
+      text-decoration: none;
+      font-size: 0.88rem;
+      margin-bottom: 10px;
+      transition: var(--transition);
+    }
+
+    .footer-col a:hover {
+      color: var(--white);
+    }
+
+    .footer-bottom {
+      border-top: 1px solid #2D2640;
+      padding-top: 24px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 0.82rem;
+      flex-wrap: wrap;
+      gap: 12px;
+    }
+
+    /* ===== RESPONSIVE ===== */
+    @media (max-width: 1024px) {
+      .hero-inner { grid-template-columns: 1fr; gap: 32px; }
+      .hero-visual { order: -1; }
+      .hero-card { max-width: 100%; }
+      .calc-card { grid-template-columns: 1fr; gap: 24px; }
+      .resume-layout { grid-template-columns: 1fr; }
+      .resume-preview { position: static; }
+      .employer-layout { grid-template-columns: 1fr; }
+      .task-preview { position: static; }
+      .footer-inner { grid-template-columns: 1fr 1fr; }
+    }
+
+    @media (max-width: 768px) {
+      .header-inner { height: auto; padding: 14px 0; flex-wrap: wrap; }
+      .nav-links { order: 3; width: 100%; overflow-x: auto; padding-bottom: 4px; }
+      .hero h1 { font-size: 1.9rem; }
+      .section { padding: 40px 0; }
+      .task-grid { grid-template-columns: 1fr; }
+      .footer-inner { grid-template-columns: 1fr; gap: 28px; }
+      .form-row { grid-template-columns: 1fr; }
+      .teacher-table { font-size: 0.82rem; }
+      .teacher-table th, .teacher-table td { padding: 10px 12px; }
+      .header-actions .btn-ghost { display: none; }
+    }
+
+    @media (max-width: 480px) {
+      .container { padding: 0 16px; }
+      .hero h1 { font-size: 1.6rem; }
+      .calc-result .value { font-size: 2.4rem; }
+      .resume-preview .resume-avatar { width: 52px; height: 52px; font-size: 1.2rem; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- ===== HEADER ===== -->
+<header>
+  <div class="container header-inner">
+    <a href="#" class="logo-block">
+      <!-- Картинка-логотип -->
+      <img src="gaga.png" alt="Логотип КодПрофи" class="logo-img">
+      <div class="logo-text">
+        <span class="main">КодПрофи</span>
+        <span class="sub">Беловский педагогический колледж</span>
+      </div>
+    </a>
+    <ul class="nav-links">
+      <li><a href="#tasks" class="active">Задачи</a></li>
+      <li><a href="#calculator">Калькулятор</a></li>
+      <li><a href="#resume">Резюме</a></li>
+      <li><a href="#employer">Работодателям</a></li>
+      <li><a href="#teacher">Вузам</a></li>
+    </ul>
+    <div class="header-actions">
+      <button class="btn btn-ghost btn-sm">Войти</button>
+      <button class="btn btn-primary btn-sm">Регистрация</button>
+    </div>
+  </div>
+</header>
+
+<!-- ===== HERO ===== -->
+<section class="hero">
+  <div class="container hero-inner">
+    <div>
+      <h1>Подтверждённый практический опыт <span class="highlight">без стажировок</span></h1>
+      <p>КодПрофи разбивает задачи бизнеса на микрокейсы от 2 до 15 часов. Выполняйте — и получайте верифицированные баллы практики в цифровом портфолио.</p>
+      <div style="display:flex; gap:12px; flex-wrap:wrap;">
+        <button class="btn btn-primary" onclick="document.getElementById('tasks').scrollIntoView({behavior:'smooth'})">Найти задачу</button>
+        <button class="btn btn-outline" onclick="document.getElementById('employer').scrollIntoView({behavior:'smooth'})">Разместить задачу</button>
+      </div>
+      <div class="hero-stats">
+        <div class="hero-stat"><span class="num" id="statTasks">124</span><span class="label">активных микрозадач</span></div>
+        <div class="hero-stat"><span class="num" id="statCompanies">38</span><span class="label">компаний-заказчиков</span></div>
+        <div class="hero-stat"><span class="num" id="statHours">2 840</span><span class="label">зачтённых часов практики</span></div>
+      </div>
+    </div>
+    <div class="hero-visual">
+      <div class="hero-card">
+        <div class="hero-card-header">
+          <div class="avatar">АА</div>
+          <div>
+            <div class="name">Алеив Ахмед</div>
+            <div class="role">Студент · ИТ-специальность</div>
+          </div>
+        </div>
+        <div class="skill-bar-item">
+          <div class="label-row"><span>Python / анализ данных</span><span>82%</span></div>
+          <div class="skill-track"><div class="skill-fill" style="width:82%"></div></div>
+        </div>
+        <div class="skill-bar-item">
+          <div class="label-row"><span>Черчение / CAD</span><span>65%</span></div>
+          <div class="skill-track"><div class="skill-fill" style="width:65%"></div></div>
+        </div>
+        <div class="skill-bar-item">
+          <div class="label-row"><span>Цифровизация учёта</span><span>91%</span></div>
+          <div class="skill-track"><div class="skill-fill" style="width:91%"></div></div>
+        </div>
+        <div class="badge-verified">✓ Верифицировано работодателем · 3 кейса</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== TASKS ===== -->
+<section class="section" id="tasks">
+  <div class="container">
+    <div class="section-header">
+      <div>
+        <h2>Каталог микрозадач</h2>
+        <p>Фильтруйте по специальности и уровню сложности — найдите первую практику</p>
+      </div>
+      <div class="filter-bar" style="margin-bottom:0;">
+        <input type="text" class="search-input" id="searchInput" placeholder="Поиск по названию или компании...">
+      </div>
+    </div>
+
+    <div class="filter-bar" id="filterBar">
+      <button class="filter-chip active" data-filter="all">Все</button>
+      <button class="filter-chip" data-filter="it">ИТ / Данные</button>
+      <button class="filter-chip" data-filter="engineering">Инженерия</button>
+      <button class="filter-chip" data-filter="accounting">Учёт / Анализ</button>
+      <select class="select-custom" id="levelSelect">
+        <option value="all">Любая сложность</option>
+        <option value="beginner">Начальный</option>
+        <option value="intermediate">Средний</option>
+        <option value="advanced">Продвинутый</option>
+      </select>
+    </div>
+
+    <div class="task-grid" id="taskGrid"></div>
+  </div>
+</section>
+
+<!-- ===== CALCULATOR ===== -->
+<section class="section" id="calculator" style="background:var(--white);">
+  <div class="container">
+    <div class="section-header">
+      <div>
+        <h2>Калькулятор зачтённых часов практики</h2>
+        <p>Автоматический расчёт на основе выполненных и верифицированных микрокейсов</p>
+      </div>
+    </div>
+    <div class="calc-card">
+      <div class="calc-left">
+        <h3>Параметры расчёта</h3>
+        <p>Укажите выполненные задачи и их статус верификации</p>
+        <div class="calc-field">
+          <label for="calcTasks">Количество выполненных микрозадач</label>
+          <input type="number" id="calcTasks" min="0" max="500" value="6">
+        </div>
+        <div class="calc-field">
+          <label for="calcAvgHours">Средняя длительность одной задачи (часов)</label>
+          <input type="number" id="calcAvgHours" min="1" max="15" value="8" step="0.5">
+        </div>
+        <div class="calc-field">
+          <label for="calcVerified">Доля верифицированных задач</label>
+          <select id="calcVerified">
+            <option value="1">100% — все верифицированы</option>
+            <option value="0.8">80% — большинство</option>
+            <option value="0.6">60% — половина</option>
+            <option value="0.4">40% — меньшинство</option>
+          </select>
+        </div>
+        <div class="calc-field">
+          <label for="calcCoefficient">Коэффициент зачёта (по специальности)</label>
+          <select id="calcCoefficient">
+            <option value="1">1.0 — профильная задача</option>
+            <option value="0.8">0.8 — смежная задача</option>
+            <option value="0.6">0.6 — непрофильная задача</option>
+          </select>
+        </div>
+      </div>
+      <div class="calc-result">
+        <div class="label">Зачтено часов практики</div>
+        <div class="value" id="calcResultValue">38.4</div>
+        <div class="unit">часов</div>
+        <div class="note" id="calcNote">Из 48 выполненных часов · верифицировано 80%</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== RESUME BUILDER ===== -->
+<section class="section" id="resume">
+  <div class="container">
+    <div class="section-header">
+      <div>
+        <h2>Генератор резюме с верифицированными кейсами</h2>
+        <p>Заполните данные — резюме сформируется автоматически и будет готово к экспорту</p>
+      </div>
+    </div>
+    <div class="resume-layout">
+      <div class="resume-form">
+        <h3>Данные студента</h3>
+        <div class="form-row">
+          <div class="form-group">
+            <label for="resName">Имя и фамилия</label>
+            <input type="text" id="resName" value="Алеив Ахмед">
+          </div>
+          <div class="form-group">
+            <label for="resSpecialty">Специальность</label>
+            <input type="text" id="resSpecialty" value="Информационные системы и технологии">
+          </div>
+        </div>
+        <div class="form-row">
+          <div class="form-group">
+            <label for="resUniversity">Учебное заведение</label>
+            <input type="text" id="resUniversity" value="Беловский педагогический колледж">
+          </div>
+          <div class="form-group">
+            <label for="resCourse">Курс</label>
+            <select id="resCourse">
+              <option>1 курс</option>
+              <option>2 курс</option>
+              <option selected>3 курс</option>
+              <option>4 курс</option>
+            </select>
+          </div>
+        </div>
+        <div class="form-group">
+          <label for="resAbout">О себе (навыки, интересы)</label>
+          <textarea id="resAbout" rows="3">Начинающий аналитик данных и разработчик. Интересуюсь автоматизацией учёта и визуализацией данных. Готов к удалённым микрозадачам от 2 до 15 часов.</textarea>
+        </div>
+        <div class="form-group">
+          <label for="resSkills">Навыки (через запятую)</label>
+          <input type="text" id="resSkills" value="Python, SQL, Excel, Pandas, Git, основы 1С">
+        </div>
+        <div class="form-group">
+          <label for="resCases">Верифицированные кейсы (по одному в строке)</label>
+          <textarea id="resCases" rows="4">Автоматизация отчётности — ООО «ТехноСтарт» — 8 ч — верифицировано
+Первичный анализ продаж — ИП Иванов — 6 ч — верифицировано
+Настройка оборудования — ООО «СмартСервис» — 4 ч — верифицировано</textarea>
+        </div>
+        <button class="btn btn-primary" style="width:100%;" onclick="buildResume()">Сгенерировать резюме</button>
+      </div>
+
+      <div class="resume-preview" id="resumePreview">
+        <div class="resume-header">
+          <div class="resume-avatar" id="previewAvatar">АА</div>
+          <div>
+            <div class="resume-name" id="previewName">Алеив Ахмед</div>
+            <div class="resume-role" id="previewRole">Информационные системы и технологии · 3 курс · БПК</div>
+          </div>
+        </div>
+        <div class="resume-section">
+          <h4>О себе</h4>
+          <p id="previewAbout">Начинающий аналитик данных и разработчик. Интересуюсь автоматизацией учёта и визуализацией данных.</p>
+        </div>
+        <div class="resume-section">
+          <h4>Навыки</h4>
+          <div class="resume-skill-tags" id="previewSkills">
+            <span class="resume-skill-tag">Python</span>
+            <span class="resume-skill-tag">SQL</span>
+            <span class="resume-skill-tag">Excel</span>
+            <span class="resume-skill-tag">Pandas</span>
+            <span class="resume-skill-tag">Git</span>
+          </div>
+        </div>
+        <div class="resume-section">
+          <h4>Верифицированные кейсы</h4>
+          <div id="previewCases">
+            <div class="resume-case-item">
+              <div class="resume-case-icon">✓</div>
+              <div>
+                <div class="case-title">Автоматизация отчётности</div>
+                <div class="case-meta">ООО «ТехноСтарт» · 8 ч · верифицировано</div>
+              </div>
+            </div>
+            <div class="resume-case-item">
+              <div class="resume-case-icon">✓</div>
+              <div>
+                <div class="case-title">Первичный анализ продаж</div>
+                <div class="case-meta">ИП Иванов · 6 ч · верифицировано</div>
+              </div>
+            </div>
+            <div class="resume-case-item">
+              <div class="resume-case-icon">✓</div>
+              <div>
+                <div class="case-title">Настройка оборудования</div>
+                <div class="case-meta">ООО «СмартСервис» · 4 ч · верифицировано</div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="verified-stamp">✓ Резюме верифицировано платформой КодПрофи</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== EMPLOYER ===== -->
+<section class="section" id="employer" style="background:var(--white);">
+  <div class="container">
+    <div class="section-header">
+      <div>
+        <h2>Конструктор микрозадач для работодателей</h2>
+        <p>Создайте задачу — AI-система проверит формулировку и подберёт исполнителей</p>
+      </div>
+    </div>
+    <div class="employer-layout">
+      <div class="employer-panel task-constructor">
+        <h3>Новая микрозадача</h3>
+        <div class="form-group">
+          <label for="empTitle">Название задачи</label>
+          <input type="text" id="empTitle" value="Автоматизация учёта складских остатков" oninput="updateTaskPreview()">
+        </div>
+        <div class="form-row">
+          <div class="form-group">
+            <label for="empCategory">Категория</label>
+            <select id="empCategory" onchange="updateTaskPreview()">
+              <option value="it">ИТ / Данные</option>
+              <option value="engineering">Инженерия</option>
+              <option value="accounting">Учёт / Анализ</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label for="empLevel">Сложность</label>
+            <select id="empLevel" onchange="updateTaskPreview()">
+              <option value="beginner">Начальный</option>
+              <option value="intermediate" selected>Средний</option>
+              <option value="advanced">Продвинутый</option>
+            </select>
+          </div>
+        </div>
+        <div class="form-row">
+          <div class="form-group">
+            <label for="empHours">Длительность (часов, 2–15)</label>
+            <input type="number" id="empHours" min="2" max="15" value="8" oninput="updateTaskPreview()">
+          </div>
+          <div class="form-group">
+            <label for="empReward">Оплата (₽)</label>
+            <input type="number" id="empReward" min="500" step="500" value="6000" oninput="updateTaskPreview()">
+          </div>
+        </div>
+        <div class="form-group">
+          <label for="empDesc">Описание задачи</label>
+          <textarea id="empDesc" rows="3" oninput="updateTaskPreview()">Разработать простой скрипт на Python для автоматического формирования отчёта по остаткам на складе из выгрузки 1С. Результат — Excel-файл с группировкой по категориям.</textarea>
+        </div>
+        <button class="btn btn-primary" style="width:100%;" onclick="publishTask()">Опубликовать задачу</button>
+        <div class="ai-check">
+          <div class="pulse"></div>
+          <span>AI-проверка: формулировка корректна, задача соответствует уровню «Средний»</span>
+        </div>
+      </div>
+
+      <div class="task-preview">
+        <div class="preview-label">Предпросмотр карточки</div>
+        <div class="task-card" style="cursor:default; box-shadow:none; border:1px dashed var(--gray-border);">
+          <div class="task-card-top">
+            <span class="task-tag" id="previewTag">ИТ / Данные</span>
+            <span class="task-hours" id="previewHours">⏱ 8 ч</span>
+          </div>
+          <h3 id="previewTitle">Автоматизация учёта складских остатков</h3>
+          <div class="company"><span class="dot"></span> ООО «ТехноСтарт»</div>
+          <p style="font-size:0.88rem; color:var(--text-muted);" id="previewDesc">Разработать простой скрипт на Python для автоматического формирования отчёта по остаткам на складе из выгрузки 1С.</p>
+          <div class="task-card-footer">
+            <div class="task-reward" id="previewReward">6 000 ₽ <small>· оплата</small></div>
+            <button class="btn btn-primary btn-sm">Откликнуться</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== TEACHER ===== -->
+<section class="section" id="teacher">
+  <div class="container">
+    <div class="section-header">
+      <div>
+        <h2>Панель преподавателя</h2>
+        <p>Валидация зачёта практики по результатам работы студентов на платформе</p>
+      </div>
+    </div>
+    <div class="teacher-card">
+      <table class="teacher-table">
+        <thead>
+          <tr>
+            <th>Студент</th>
+            <th>Специальность</th>
+            <th>Кейсов</th>
+            <th>Часов</th>
+            <th>Статус</th>
+            <th>Действие</th>
+          </tr>
+        </thead>
+        <tbody id="teacherTableBody">
+          <tr>
+            <td><strong>Алеив Ахмед</strong></td>
+            <td>Информационные системы</td>
+            <td>3</td>
+            <td>18</td>
+            <td><span class="status-badge pending">⏳ На проверке</span></td>
+            <td><button class="btn btn-success btn-sm" onclick="approvePractice(this)">Зачесть практику</button></td>
+          </tr>
+          <tr>
+            <td><strong>Петрова Мария</strong></td>
+            <td>Экономика и бухучёт</td>
+            <td>5</td>
+            <td>32</td>
+            <td><span class="status-badge approved">✓ Зачтено</span></td>
+            <td><button class="btn btn-ghost btn-sm" disabled>Завершено</button></td>
+          </tr>
+          <tr>
+            <td><strong>Сидоров Иван</strong></td>
+            <td>Техническое обслуживание</td>
+            <td>2</td>
+            <td>12</td>
+            <td><span class="status-badge pending">⏳ На проверке</span></td>
+            <td><button class="btn btn-success btn-sm" onclick="approvePractice(this)">Зачесть практику</button></td>
+          </tr>
+          <tr>
+            <td><strong>Кузнецова Анна</strong></td>
+            <td>Программирование</td>
+            <td>4</td>
+            <td>24</td>
+            <td><span class="status-badge approved">✓ Зачтено</span></td>
+            <td><button class="btn btn-ghost btn-sm" disabled>Завершено</button></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</section>
+
+<!-- ===== FOOTER ===== -->
+<footer>
+  <div class="container">
+    <div class="footer-inner">
+      <div class="footer-brand">
+        <div class="logo-block">
+          <img src="gaga.png" alt="Логотип КодПрофи" class="logo-img footer-logo-img">
+          <div class="logo-text">
+            <span class="main">КодПрофи</span>
+            <span class="sub">Беловский педагогический колледж</span>
+          </div>
+        </div>
+        <p>Интеллектуальный агрегатор практического стажа и микрозадач. Подтверждённый опыт — без ожидания стажировок.</p>
+      </div>
+      <div class="footer-col">
+        <h4>Платформа</h4>
+        <a href="#tasks">Каталог задач</a>
+        <a href="#calculator">Калькулятор часов</a>
+        <a href="#resume">Генератор резюме</a>
+      </div>
+      <div class="footer-col">
+        <h4>Бизнесу</h4>
+        <a href="#employer">Конструктор задач</a>
+        <a href="#employer">Подписка на выпускников</a>
+        <a href="#teacher">B2G-лицензии</a>
+      </div>
+      <div class="footer-col">
+        <h4>Контакты</h4>
+        <a href="#">hello@kodprofi.ru</a>
+        <a href="#">+7 (38452) 2-80-19</a>
+        <a href="#">г. Белово, ул. Советская, 30</a>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span>© 2025 КодПрофи · Беловский педагогический колледж</span>
+      <span>Цифровой стажевый балл · Блокчейн-верификация · AI-трекинг</span>
+    </div>
+  </div>
+</footer>
+
+<script>
+  // ===== ДАННЫЕ ЗАДАЧ =====
+  const tasks = [
+    { id: 1, title: 'Автоматизация отчётности в Excel (макросы)', company: 'ООО «ТехноСтарт»', category: 'it', categoryLabel: 'ИТ / Данные', level: 'beginner', levelLabel: 'Начальный', hours: 6, reward: 4000, verified: true },
+    { id: 2, title: 'Первичный анализ данных продаж в Python', company: 'ИП Иванов', category: 'it', categoryLabel: 'ИТ / Данные', level: 'intermediate', levelLabel: 'Средний', hours: 10, reward: 7000, verified: true },
+    { id: 3, title: 'Разработка чертежа детали в Компас-3D', company: 'ООО «ПромТех»', category: 'engineering', categoryLabel: 'Инженерия', level: 'intermediate', levelLabel: 'Средний', hours: 8, reward: 6500, verified: false },
+    { id: 4, title: 'Настройка сетевого оборудования офиса', company: 'ООО «СмартСервис»', category: 'it', categoryLabel: 'ИТ / Данные', level: 'beginner', levelLabel: 'Начальный', hours: 4, reward: 3000, verified: true },
+    { id: 5, title: 'Цифровизация складского учёта в 1С', company: 'ООО «ЛогистикПлюс»', category: 'accounting', categoryLabel: 'Учёт / Анализ', level: 'intermediate', levelLabel: 'Средний', hours: 12, reward: 9000, verified: false },
+    { id: 6, title: 'Создание дашборда в Power BI', company: 'ООО «АналитикаПро»', category: 'it', categoryLabel: 'ИТ / Данные', level: 'advanced', levelLabel: 'Продвинутый', hours: 14, reward: 12000, verified: true },
+    { id: 7, title: 'Расчёт сметы на ремонтные работы', company: 'ООО «СтройГарант»', category: 'engineering', categoryLabel: 'Инженерия', level: 'beginner', levelLabel: 'Начальный', hours: 5, reward: 3500, verified: false },
+    { id: 8, title: 'Первичная обработка бухгалтерских документов', company: 'ИП Смирнова', category: 'accounting', categoryLabel: 'Учёт / Анализ', level: 'beginner', levelLabel: 'Начальный', hours: 3, reward: 2000, verified: true },
+    { id: 9, title: 'Разработка Telegram-бота для заявок', company: 'ООО «ДиджиталСтарт»', category: 'it', categoryLabel: 'ИТ / Данные', level: 'intermediate', levelLabel: 'Средний', hours: 10, reward: 8000, verified: false }
+  ];
+
+  // ===== РЕНДЕР КАТАЛОГА =====
+  let currentFilter = 'all';
+  let currentLevel = 'all';
+  let currentSearch = '';
+
+  function renderTasks() {
+    const grid = document.getElementById('taskGrid');
+    const filtered = tasks.filter(t => {
+      const matchCategory = currentFilter === 'all' || t.category === currentFilter;
+      const matchLevel = currentLevel === 'all' || t.level === currentLevel;
+      const matchSearch = t.title.toLowerCase().includes(currentSearch.toLowerCase()) ||
+                          t.company.toLowerCase().includes(currentSearch.toLowerCase());
+      return matchCategory && matchLevel && matchSearch;
+    });
+
+    if (filtered.length === 0) {
+      grid.innerHTML = '<div style="grid-column:1/-1; text-align:center; padding:48px 24px; color:var(--text-muted);">😕 По вашему запросу ничего не найдено. Попробуйте изменить фильтры.</div>';
+      return;
+    }
+
+    grid.innerHTML = filtered.map(t => `
+      <div class="task-card">
+        <div class="task-card-top">
+          <span class="task-tag ${t.verified ? 'verified' : ''}">${t.verified ? '✓ ' : ''}${t.categoryLabel}</span>
+          <span class="task-hours">⏱ ${t.hours} ч</span>
+        </div>
+        <h3>${t.title}</h3>
+        <div class="company"><span class="dot"></span> ${t.company}</div>
+        <div style="display:flex; gap:8px; flex-wrap:wrap;">
+          <span style="font-size:0.78rem; padding:3px 10px; border-radius:var(--radius-full); background:var(--gray-bg); color:var(--text-muted); font-weight:500;">${t.levelLabel}</span>
+        </div>
+        <div class="task-card-footer">
+          <div class="task-reward">${t.reward.toLocaleString('ru-RU')} ₽ <small>· оплата</small></div>
+          <button class="btn btn-primary btn-sm">Откликнуться</button>
+        </div>
+      </div>
+    `).join('');
+  }
+
+  // ===== ФИЛЬТРЫ =====
+  document.getElementById('filterBar').addEventListener('click', (e) => {
+    if (e.target.classList.contains('filter-chip')) {
+      document.querySelectorAll('.filter-chip').forEach(c => c.classList.remove('active'));
+      e.target.classList.add('active');
+      currentFilter = e.target.dataset.filter;
+      renderTasks();
+    }
+  });
+
+  document.getElementById('levelSelect').addEventListener('change', (e) => {
+    currentLevel = e.target.value;
+    renderTasks();
+  });
+
+  document.getElementById('searchInput').addEventListener('input', (e) => {
+    currentSearch = e.target.value;
+    renderTasks();
+  });
+
+  // ===== КАЛЬКУЛЯТОР =====
+  function updateCalculator() {
+    const tasksCount = parseFloat(document.getElementById('calcTasks').value) || 0;
+    const avgHours = parseFloat(document.getElementById('calcAvgHours').value) || 0;
+    const verifiedRatio = parseFloat(document.getElementById('calcVerified').value);
+    const coefficient = parseFloat(document.getElementById('calcCoefficient').value);
+
+    const totalHours = tasksCount * avgHours;
+    const creditedHours = totalHours * verifiedRatio * coefficient;
+
+    document.getElementById('calcResultValue').textContent = creditedHours.toFixed(1);
+    document.getElementById('calcNote').textContent =
+      `Из ${totalHours.toFixed(0)} выполненных часов · верифицировано ${Math.round(verifiedRatio * 100)}% · коэффициент зачёта ${coefficient}`;
+  }
+
+  ['calcTasks', 'calcAvgHours', 'calcVerified', 'calcCoefficient'].forEach(id => {
+    document.getElementById(id).addEventListener('input', updateCalculator);
+    document.getElementById(id).addEventListener('change', updateCalculator);
+  });
+
+  // ===== ГЕНЕРАТОР РЕЗЮМЕ =====
+  function buildResume() {
+    const name = document.getElementById('resName').value.trim() || 'Студент';
+    const specialty = document.getElementById('resSpecialty').value.trim() || 'Специальность';
+    const course = document.getElementById('resCourse').value;
+    const about = document.getElementById('resAbout').value.trim() || '—';
+    const skillsRaw = document.getElementById('resSkills').value.trim();
+    const casesRaw = document.getElementById('resCases').value.trim();
+
+    // Аватар
+    const initials = name.split(' ').map(w => w[0]).join('').slice(0, 2).toUpperCase();
+    document.getElementById('previewAvatar').textContent = initials;
+    document.getElementById('previewName').textContent = name;
+    document.getElementById('previewRole').textContent = `${specialty} · ${course} · БПК`;
+    document.getElementById('previewAbout').textContent = about;
+
+    // Навыки
+    const skills = skillsRaw.split(',').map(s => s.trim()).filter(Boolean);
+    document.getElementById('previewSkills').innerHTML = skills.map(s =>
+      `<span class="resume-skill-tag">${s}</span>`
+    ).join('');
+
+    // Кейсы
+    const cases = casesRaw.split('\n').map(c => c.trim()).filter(Boolean);
+    document.getElementById('previewCases').innerHTML = cases.map(c => {
+      const parts = c.split('—').map(p => p.trim());
+      const title = parts[0] || 'Кейс';
+      const company = parts[1] || '';
+      const hours = parts[2] || '';
+      const status = parts[3] || 'верифицировано';
+      return `
+        <div class="resume-case-item">
+          <div class="resume-case-icon">✓</div>
+          <div>
+            <div class="case-title">${title}</div>
+            <div class="case-meta">${company}${hours ? ' · ' + hours : ''} · ${status}</div>
+          </div>
+        </div>
+      `;
+    }).join('') || '<p style="color:var(--text-muted); font-size:0.88rem;">Добавьте кейсы в поле слева</p>';
+  }
+
+  // ===== КОНСТРУКТОР ЗАДАЧ =====
+  function updateTaskPreview() {
+    const title = document.getElementById('empTitle').value || 'Название задачи';
+    const category = document.getElementById('empCategory');
+    const categoryLabel = category.options[category.selectedIndex].text;
+    const hours = document.getElementById('empHours').value || 0;
+    const reward = parseFloat(document.getElementById('empReward').value) || 0;
+    const desc = document.getElementById('empDesc').value || 'Описание задачи';
+
+    document.getElementById('previewTitle').textContent = title;
+    document.getElementById('previewTag').textContent = categoryLabel;
+    document.getElementById('previewHours').textContent = `⏱ ${hours} ч`;
+    document.getElementById('previewReward').innerHTML = `${reward.toLocaleString('ru-RU')} ₽ <small>· оплата</small>`;
+    document.getElementById('previewDesc').textContent = desc;
+  }
+
+  function publishTask() {
+    const title = document.getElementById('empTitle').value.trim();
+    const hours = parseInt(document.getElementById('empHours').value) || 0;
+    if (!title) return;
+    if (hours < 2 || hours > 15) return;
+
+    const category = document.getElementById('empCategory');
+    const categoryValue = category.value;
+    const categoryLabel = category.options[category.selectedIndex].text;
+    const level = document.getElementById('empLevel');
+    const levelValue = level.value;
+    const levelLabel = level.options[level.selectedIndex].text;
+    const reward = parseFloat(document.getElementById('empReward').value) || 0;
+    const desc = document.getElementById('empDesc').value;
+
+    const newTask = {
+      id: tasks.length + 1,
+      title: title,
+      company: 'ООО «ТехноСтарт»',
+      category: categoryValue,
+      categoryLabel: categoryLabel,
+      level: levelValue,
+      levelLabel: levelLabel,
+      hours: hours,
+      reward: reward,
+      verified: false
+    };
+
+    tasks.unshift(newTask);
+    renderTasks();
+    document.getElementById('statTasks').textContent = tasks.length;
+  }
+
+  // ===== ВАЛИДАЦИЯ ПРАКТИКИ ПРЕПОДАВАТЕЛЕМ =====
+  function approvePractice(btn) {
+    const row = btn.closest('tr');
+    const statusCell = row.querySelector('.status-badge');
+    statusCell.className = 'status-badge approved';
+    statusCell.textContent = '✓ Зачтено';
+    btn.disabled = true;
+    btn.textContent = 'Завершено';
+    btn.className = 'btn btn-ghost btn-sm';
+  }
+
+  // ===== НАВИГАЦИЯ =====
+  document.querySelectorAll('.nav-links a').forEach(link => {
+    link.addEventListener('click', function () {
+      document.querySelectorAll('.nav-links a').forEach(l => l.classList.remove('active'));
+      this.classList.add('active');
+    });
+  });
+
+  // ===== СТАРТ =====
+  renderTasks();
+  updateCalculator();
+  buildResume();
+  updateTaskPreview();
+
+  // Плавный скролл
+  document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+    anchor.addEventListener('click', function (e) {
+      const href = this.getAttribute('href');
+      if (href === '#') return;
+      e.preventDefault();
+      const target = document.querySelector(href);
+      if (target) target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    });
+  });
+</script>
+
+</body>
+</html>
